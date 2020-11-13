@@ -1,4 +1,4 @@
-# Customer Server API
+# Customer Server API + JWT
 
 ## Api Rest para cadastro e consulta de clientes.
 
@@ -15,13 +15,76 @@ A API deve cadastrar clientes e realizar operações básicas de um CRUD.
 
 ### Operações suportadas
 
+- Cadastrar Usuário
+- Realizar Login
 - Cadastrar cliente
-- Consultar cliente pelo nome
 - Consultar cliente pelo Id
 - Remover cliente
 - Editar cliente
 
 ### Endpoints
+
+#### Auth
+
+- POST /register
+
+    - Realizamos um cadastro de usuário para podermos acessar o sistema, devemos informa o nome, email e senha conforme exemplo.
+    - A resposta deve conter os seguintes códigos:
+
+      - 200: em caso de sucesso
+      - 500: em caso de falha
+
+_Exemplo: uri/register
+
+_request:_
+
+```json
+{
+	"name": "Teste",
+	"email" : "teste@gmail.com.br",
+	"password" : "1234"	
+}
+```
+
+_response:_
+
+```json
+{
+	"name": "Teste",
+	"email" : "teste@gmail.com.br",
+	"password" : "1234"	
+}
+```
+
+- POST /authenticate
+
+    - Informamos um email e senha previamente cadastrados para recebermos um token.
+    - Retorna um jwt-token para ser usado nas demais requisições realizadas.
+    - A resposta deve conter os seguintes códigos:
+
+      - 200: em caso de sucesso
+      - 401: em caso de falha
+
+_Exemplo: uri/authenticate_
+
+_request:_
+
+```json
+{
+	"username" : "teste@gmail.com",
+	"password" : "1234"
+}
+```
+
+_response:_
+
+```json
+{
+  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYXVsb2Zhcmlhc2xpdmVAZ21haWwuY29tIiwiZXhwIjoxNjA1MzE1MDY1LCJpYXQiOjE2MDUyOTcwNjV9.h7NWHegURC0zIfIp9cZIMeSTtSQSQk0RWu0_AmnK1f7TEzSqdtrc5uGxsoGGxBcbBNig81F08VZ6_KkMgoFXUQ"
+}
+```
+
+
 
 #### Customers
 
@@ -34,6 +97,8 @@ A API deve cadastrar clientes e realizar operações básicas de um CRUD.
     - 404: se o registro não for localizado
 
 _Exemplo: uri/customers_
+
+_response:_
 
 ```json
 [
@@ -95,6 +160,8 @@ _Exemplo: uri/customers_
 
 _Exemplo: uri/cutomers/1111111111_
 
+_response:_
+
 ```json
 {
   "cpf": "1111111111",
@@ -135,6 +202,39 @@ _Exemplo: uri/cutomers/1111111111_
 
 _Exemplo: uri/cutomers_
 
+
+request:_
+
+```json
+{
+  "cpf": "1111111111",
+  "rg": "22222",
+  "name": "Severino Saulo",
+  "customerAddress": {
+    "street": "Rua Sete de Setembro",
+    "number": "1",
+    "city": "Janaúba",
+    "district": "Boa Vista",
+    "complement": null,
+    "state": "MG",
+    "zipCode": "39444074",
+    "country": "Brasil"
+  },
+  "contacts": [
+    {
+      "type": "telefone",
+      "number": "8122222"
+    },
+    {
+      "type": "celular",
+      "number": "233123123"
+    }
+  ]
+}
+```
+
+_response:_
+
 ```json
 {
   "cpf": "1111111111",
@@ -171,10 +271,11 @@ _Exemplo: uri/cutomers_
   - Atualiza um cliente
   - A resposta deve conter os seguintes códigos:
 
-    - 204: em caso de sucesso
+    - 201: em caso de sucesso
     - 404: se o registro não for localizado
 
 _Exemplo: uri/cutomers/1111111111_
+
 
 * DELETE / customers/{id}
   * Remove um cliente
@@ -194,7 +295,7 @@ Por padrão, a API está disponível em [http: // localhost: 8080 /] (http: // l
 
 Para executar a API, podemos usar os seguintes métodos:
 
-_cd target && java -jar customer-api-0.0.1-SNAPSHOT.jar_
+_cd target && java -jar customer-server-0.0.1-SNAPSHOT.jar_
 
 ou com o seguinte comando
 
