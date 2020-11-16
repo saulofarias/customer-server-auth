@@ -32,8 +32,8 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = { "/api/authenticate" }, method = { RequestMethod.POST })
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        this.authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         String token = this.jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok((Object) new JwtResponse(token));
     }

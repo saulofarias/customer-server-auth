@@ -22,7 +22,7 @@ import com.vempranuvem.customerserver.model.Customer;
 import com.vempranuvem.customerserver.service.CustomerService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/api/customers")
 public class CustomerController {
 
